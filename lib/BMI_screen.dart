@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:second_task/bmi_result.dart';
 
 class BmiScreen extends StatefulWidget {
   const BmiScreen({super.key});
@@ -13,6 +14,7 @@ class _BmiScreenState extends State<BmiScreen> {
   double height = 170;
   int age = 20;
   int weight = 50;
+  bool isMale = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,24 +36,31 @@ class _BmiScreenState extends State<BmiScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.male, size: 70),
-                            SizedBox(height: 10),
-                            Text(
-                              "MALE",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isMale = true;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: isMale ? Colors.blue : Colors.grey,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.male, size: 70),
+                              SizedBox(height: 10),
+                              Text(
+                                "MALE",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -60,24 +69,31 @@ class _BmiScreenState extends State<BmiScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.female, size: 70),
-                            SizedBox(height: 10),
-                            Text(
-                              "FEMALE",
-                              style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isMale = false;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: !isMale ? Colors.pink : Colors.grey,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.female, size: 70),
+                              SizedBox(height: 10),
+                              Text(
+                                "FEMALE",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -272,6 +288,17 @@ class _BmiScreenState extends State<BmiScreen> {
               child: MaterialButton(
                 onPressed: () {
                   double result = weight / pow(height / 100, 2);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder:
+                          (context) => BmiResult(
+                            age: age,
+                            result: result,
+                            gender: isMale,
+                          ),
+                    ),
+                  );
                 },
                 child: Text(
                   'CALCULATE',
